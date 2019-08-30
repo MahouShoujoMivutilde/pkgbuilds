@@ -1,0 +1,17 @@
+diff '--color=auto' -uar dmenu-4.9/config.def.h dmenu/config.def.h
+--- dmenu-4.9/config.def.h	2019-05-30 18:55:09.275571373 +0300
++++ dmenu/config.def.h	2019-05-30 20:02:50.411522431 +0300
+@@ -9,9 +9,9 @@
+ static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
+ static const char *colors[SchemeLast][2] = {
+ 	/*     fg         bg       */
+-	[SchemeNorm] = { "#bbbbbb", "#222222" },
+-	[SchemeSel] = { "#eeeeee", "#005577" },
+-	[SchemeOut] = { "#000000", "#00ffff" },
++	[SchemeNorm] = { "#3692d5", "#10141f" },
++	[SchemeSel] = { "#10141f", "#3692d5" },
++	[SchemeOut] = { "#10141f", "#5da5a6" },
+ };
+ /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
+ static unsigned int lines      = 0;
+Only in dmenu: PKGBUILD

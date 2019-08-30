@@ -1,0 +1,33 @@
+pkgname=st-mivu
+_pkgname=st
+pkgver=0.8.2.r1092.31d4dac
+pkgrel=1
+pkgdesc='Simple (suckless) terminal'
+url='https://github.com/MahouShoujoMivutilde/st'
+arch=('i686' 'x86_64')
+license=('MIT')
+depends=('libxft')
+makedepends=('libxext' 'git')
+optdepends=('dmenu: feed urls to dmenu')
+source=("$pkgname::git+https://github.com/MahouShoujoMivutilde/st.git")
+md5sums=(SKIP)
+
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    printf '%s.r%s.%s\n' "$(awk '/^VERSION =/ {print $3}' config.mk)" \
+        "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+    make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+    make PREFIX=/usr DESTDIR="${pkgdir}" install
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

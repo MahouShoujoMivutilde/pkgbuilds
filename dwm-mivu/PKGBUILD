@@ -9,7 +9,7 @@ license=('MIT')
 options=('zipman')
 depends=('libx11' 'libxinerama' 'libxft' 'freetype2')
 makedepends=('git')
-source=("$pkgname::git+https://github.com/MahouShoujoMivutilde/dwm.git#branch=my")
+source=("$pkgname::git+https://github.com/MahouShoujoMivutilde/dwm.git#branch=all")
 sha256sums=(SKIP)
 
 provides=("$_pkgname")

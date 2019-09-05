@@ -1,0 +1,24 @@
+By default dwm allows you to have 100500 masters even if you have like 2-3 windows visible.
+This patch changes this behavior to disallow nmasters > than currently visible windows.
+Depends on pertag.
+
+diff --git a/dwm.c b/dwm.c
+index 7b9d6d1..b15f9c9 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1141,7 +1141,14 @@ grabkeys(void)
+ void
+ incnmaster(const Arg *arg)
+ {
+-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
++	unsigned int n = 0;
++	Client *c;
++
++	for (c = selmon->clients; c; c = c->next)
++		if (ISVISIBLE(c))
++			n++;
++
++	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MIN(MAX(selmon->nmaster + arg->i, 0), n);
+ 	arrange(selmon);
+ }
+

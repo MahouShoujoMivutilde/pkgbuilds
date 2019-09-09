@@ -1,0 +1,39 @@
+pkgname=slstatus-mivu-git
+_pkgname=slstatus
+pkgver=0.r552.b14e039
+pkgrel=1
+pkgdesc="dwm status"
+url="http://tools.suckless.org/slstatus"
+arch=("i686" "x86_64")
+license=("MIT")
+depends=("libx11")
+makedepends=("git")
+source=("$pkgname::git+https://git.suckless.org/$_pkgname"
+        "slstatus-20190903-b14e039.diff")
+md5sums=('SKIP'
+         '4873965bae334676dcc5cab90fc1cef3')
+
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    printf '%s.r%s.%s\n' "$(awk '/^VERSION =/ {print $3}' config.mk)" \
+        "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    cd "$srcdir/$pkgname"
+    patch -p1 < $srcdir/slstatus-20190903-b14e039.diff
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+    make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+    make PREFIX=/usr DESTDIR="${pkgdir}" install
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

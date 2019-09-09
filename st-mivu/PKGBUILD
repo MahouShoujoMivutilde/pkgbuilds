@@ -1,6 +1,6 @@
-pkgname=st-mivu
+pkgname=st-mivu-git
 _pkgname=st
-pkgver=0.8.2.r1092.31d4dac
+pkgver=0.8.2.r1093.220788e
 pkgrel=1
 pkgdesc='Simple (suckless) terminal'
 url='https://github.com/MahouShoujoMivutilde/st'

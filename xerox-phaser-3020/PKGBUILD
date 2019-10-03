@@ -1,0 +1,62 @@
+pkgname=xerox-phaser-3020
+pkgver=1.0
+pkgrel=1
+pkgdesc='Driver for the Xerox Phaser 3020, but might work with others, see PKGBUILD'
+url='https://www.support.xerox.com/support/phaser-3020/downloads/enin.html?operatingSystem=linux'
+license=('custom')
+arch=('i686' 'x86_64')
+depends=(cups foomatic-db-engine)
+source=('http://download.support.xerox.com/pub/drivers/3020/drivers/linux/en_GB/Xerox_Phaser_3020_LinuxDriver.tar.gz')
+md5sums=('86b8422bcd5be598f48a608fdbfeb2f1')
+
+package() {
+	cd "${srcdir}"/uld
+
+	install -d $pkgdir/usr/share/ppd/cms
+	install -d $pkgdir/usr/lib/cups/filter
+	install -d $pkgdir/usr/lib/cups/backend
+
+	install -D noarch/share/ppd/*.ppd $pkgdir/usr/share/ppd
+	install -D noarch/share/ppd/cms/*.cts $pkgdir/usr/share/ppd/cms
+
+	install -D $CARCH/{pstosecps,rastertospl} $pkgdir/usr/lib/cups/filter
+	install -D $CARCH/smfpnetdiscovery $pkgdir/usr/lib/cups/backend
+	install -D $CARCH/libscmssc.so $pkgdir/usr/lib
+}
+
+# PPDs in archive at the moment of last package update:
+# 	Xerox_FaxCentre_2218_Series.ppd
+# 	Xerox_Phaser_3020_fr.ppd
+# 	Xerox_Phaser_3020.ppd
+# 	Xerox_Phaser_3052_fr.ppd
+# 	Xerox_Phaser_3052.ppd
+# 	Xerox_Phaser_3117.ppd
+# 	Xerox_Phaser_3140_and_3155.ppd
+# 	Xerox_Phaser_3160.ppd
+# 	Xerox_Phaser_3200MFP.ppd
+# 	Xerox_Phaser_3250.ppd
+# 	Xerox_Phaser_3250_spl.ppd
+# 	Xerox_Phaser_3260_fr.ppd
+# 	Xerox_Phaser_3260.ppd
+# 	Xerox_Phaser_3300MFP.ppd
+# 	Xerox_Phaser_3320_fr.ppd
+# 	Xerox_Phaser_3320.ppd
+# 	Xerox_Phaser_3435.ppd
+# 	Xerox_Phaser_3600.ppd
+# 	Xerox_Phaser_6110MFP.ppd
+# 	Xerox_WorkCentre_3025_fr.ppd
+# 	Xerox_WorkCentre_3025.ppd
+# 	Xerox_WorkCentre_3210.ppd
+# 	Xerox_WorkCentre_3215_fr.ppd
+# 	Xerox_WorkCentre_3215.ppd
+# 	Xerox_WorkCentre_3220.ppd
+# 	Xerox_WorkCentre_3225_fr.ppd
+# 	Xerox_WorkCentre_3225.ppd
+# 	Xerox_WorkCentre_3315_fr.ppd
+# 	Xerox_WorkCentre_3315.ppd
+# 	Xerox_WorkCentre_3325_fr.ppd
+# 	Xerox_WorkCentre_3325.ppd
+# 	Xerox_WorkCentre_3550.ppd
+# 	Xerox_WorkCentre_4118_Series.ppd
+# 	Xerox_WorkCentre_PE120 Series.ppd
+# 	Xerox_WorkCentre_PE220_Series.ppd

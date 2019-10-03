@@ -1,6 +1,6 @@
 pkgname=xerox-phaser-3020
-pkgver=1.0
-pkgrel=1
+pkgver=1.00.25
+pkgrel=5
 pkgdesc='Driver for the Xerox Phaser 3020, but might work with others, see PKGBUILD'
 url='https://www.support.xerox.com/support/phaser-3020/downloads/enin.html?operatingSystem=linux'
 license=('custom')

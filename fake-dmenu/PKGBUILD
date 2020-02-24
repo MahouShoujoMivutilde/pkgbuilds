@@ -1,18 +1,14 @@
 pkgname=fake-dmenu
 _pkgname=dmenu
 pkgver=1
-pkgrel=1
-pkgdesc='Replaces dmenu with symlink to rofi'
+pkgrel=2
+pkgdesc='Dummy package for everything that requires dmenu'
 arch=('any')
 license=('MIT')
-depends=('rofi')
 
 provides=("$_pkgname")
 conflicts=("$_pkgname")
 
 package() {
-    cd ${pkgdir}
-    mkdir -p usr/bin
-    cd usr/bin
-    ln -s rofi dmenu
+    echo "Don't forget to symlink dmenu to something equivalent"
 }

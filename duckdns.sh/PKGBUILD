@@ -1,0 +1,19 @@
+pkgname=duckdns.sh
+pkgver=1
+pkgrel=3
+pkgdesc='Systemd service and timer for updating duckdns.org records'
+arch=('any')
+source=('duckdns.sh' 'duckdns.service' 'duckdns.timer' 'duckdns.conf')
+
+md5sums=('34519cfbb39e68034499338564045b63'
+         'a70d043b97beea4067118813864eea8c'
+         '69ffc42964125c124aa1f10fee274991'
+         '9371a1a7e4d8df8ff7b7eed2c58295c0')
+
+package() {
+    cd "$srcdir"
+
+    install -D -m 755 duckdns.sh -t $pkgdir/usr/bin
+    install -D -m 644 duckdns.{service,timer} -t $pkgdir/usr/lib/systemd/system
+    install -D -m 600 duckdns.conf -t $pkgdir/etc
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Duck DNS updater
+After=network.target network-online.target nss-lookup.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/duckdns.sh
+User=http
+EnvironmentFile=/etc/duckdns.conf

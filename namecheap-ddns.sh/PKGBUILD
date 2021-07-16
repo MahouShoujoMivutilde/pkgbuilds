@@ -1,0 +1,19 @@
+pkgname=namecheap-ddns.sh
+pkgver=1
+pkgrel=1
+pkgdesc='Systemd service and timer for updating namecheap records'
+arch=('any')
+source=(namecheap-ddns.sh namecheap-ddns.conf namecheap-ddns.service namecheap-ddns.timer)
+
+md5sums=('a1ea781767a4f70843c7454c29726695'
+         '0a92909d710e1beface030abf54c3039'
+         '9f26505ace42527b423609d2a09f32d6'
+         'd3b9885b8d930a4e96bdc18334797de5')
+
+package() {
+    cd "$srcdir"
+
+    install -D -m 755 namecheap-ddns.sh -t $pkgdir/usr/bin
+    install -D -m 644 namecheap-ddns.{service,timer} -t $pkgdir/usr/lib/systemd/system
+    install -D -m 600 namecheap-ddns.conf -t $pkgdir/etc
+}

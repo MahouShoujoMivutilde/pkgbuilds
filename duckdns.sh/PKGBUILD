@@ -1,11 +1,11 @@
 pkgname=duckdns.sh
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Systemd service and timer for updating duckdns.org records'
 arch=('any')
 source=('duckdns.sh' 'duckdns.service' 'duckdns.timer' 'duckdns.conf')
 
-md5sums=('34519cfbb39e68034499338564045b63'
+md5sums=('8aa6a57a0f674ac121c1bcf9bea74b40'
          'a70d043b97beea4067118813864eea8c'
          '69ffc42964125c124aa1f10fee274991'
          '9371a1a7e4d8df8ff7b7eed2c58295c0')

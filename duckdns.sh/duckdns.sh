@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-RESPONSE=$(curl -sSk "https://www.duckdns.org/update?domains=${SUBDOMAINS}&token=${TOKEN}&ip=")
+RESPONSE=$(curl -sS "https://www.duckdns.org/update?domains=${SUBDOMAINS}&token=${TOKEN}&ip=")
 
 if [ "${RESPONSE}" = "OK" ]; then
     echo "Your IP was updated at $(date)"

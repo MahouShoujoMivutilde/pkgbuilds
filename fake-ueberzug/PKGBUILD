@@ -1,0 +1,14 @@
+pkgname=fake-ueberzug
+_pkgname=ueberzug
+pkgver=1
+pkgrel=1
+pkgdesc='Dummy package for everything that requires ueberzug'
+arch=('any')
+license=('MIT')
+
+provides=("$_pkgname")
+conflicts=("$_pkgname")
+
+package() {
+    echo "Don't forget to symlink ueberzug to something equivalent"
+}

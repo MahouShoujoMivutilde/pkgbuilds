@@ -1,0 +1,30 @@
+From 261ed0f9a62264197568fa54e281ad6a9195f03d Mon Sep 17 00:00:00 2001
+From: Keith Plant <kplantjr@gmail.com>
+Date: Thu, 18 Aug 2022 22:13:39 -0400
+Subject: [PATCH] Replace glFlush with glFinish to resolve flicker
+
+Resolve artifacting on nvidia platforms using OpenGL ES renderer by
+replacing glFlush call with blocking glFinish call.
+
+Tested on intel and amd gpus, no regressions found. No performance
+penalties observed.
+---
+ render/gles2/renderer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/render/gles2/renderer.c b/render/gles2/renderer.c
+index c00a7f51c..a17cf6ba9 100644
+--- a/render/gles2/renderer.c
++++ b/render/gles2/renderer.c
+@@ -159,7 +159,7 @@ static bool gles2_bind_buffer(struct wlr_renderer *wlr_renderer,
+ 		assert(wlr_egl_is_current(renderer->egl));
+ 
+ 		push_gles2_debug(renderer);
+-		glFlush();
++		glFinish();
+ 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+ 		pop_gles2_debug(renderer);
+ 
+-- 
+GitLab
+

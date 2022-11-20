@@ -1,0 +1,104 @@
+# Maintainer: ThatOneCalculator <kainoa@t1c.dev>
+
+_pkgname="hyprland"
+pkgname="${_pkgname}-my-git"
+pkgver=r2068.c03e4c3
+pkgrel=1
+pkgdesc="A dynamic tiling Wayland compositor based on wlroots that doesn't sacrifice on its looks."
+arch=(any)
+url="https://github.com/hyprwm/Hyprland"
+license=('BSD')
+depends=(
+	libxcb
+	xcb-proto
+	xcb-util
+	xcb-util-keysyms
+	libxfixes
+	libx11
+	libxcomposite
+	xorg-xinput
+	libxrender
+	pixman
+	wayland-protocols
+	cairo
+	pango
+	polkit
+	glslang
+	libinput
+	libxcb
+	libxkbcommon
+	opengl-driver
+	pixman
+	wayland
+	xcb-util-errors
+	xcb-util-renderutil
+	xcb-util-wm
+	seatd
+	vulkan-icd-loader
+	vulkan-validation-layers
+	xorg-xwayland)
+makedepends=(
+	git
+	cmake
+	ninja
+	gcc
+	gdb
+	meson
+	vulkan-headers
+	wayland-protocols
+	xorgproto)
+source=("${_pkgname}::git+https://github.com/hyprwm/Hyprland.git"
+        "nvidia-format-workaround.patch"
+		"i3-like-back-and-forth.patch"
+		"nvidia-fix-black-artifacts.patch")
+conflicts=("${_pkgname}")
+provides=(hyprland)
+sha256sums=('SKIP'
+            '0ed607f47d04001220b54245da94618c7fdbdeddcd003d55b34858585f8f5ac6'
+            '351b4f4c3349c413d396762f75ea058d32229c02bc5b3747213612e862426836'
+            '61f52ba952794a89f4cc7e4d7b89ae07f499437a56e794898b9b4d1ab5c3bba5')
+options=(!makeflags !buildflags !strip)
+
+pkgver() {
+  cd "$_pkgname"
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+prepare() {
+	cd "${srcdir}/${_pkgname}/subprojects/wlroots"
+	git checkout .
+}
+
+build() {
+	cd "${srcdir}/${_pkgname}"
+	git submodule update --init
+	make fixwlr
+
+	patch -p1 < "${srcdir}/i3-like-back-and-forth.patch"
+
+	cd "./subprojects/wlroots/"
+
+	patch -p1 < "${srcdir}/nvidia-format-workaround.patch"
+	patch -p1 < "${srcdir}/nvidia-fix-black-artifacts.patch"
+
+	meson build/ --prefix="${srcdir}/tmpwlr" --buildtype=release && ninja -C build/ && mkdir -p "${srcdir}/tmpwlr" && ninja -C build/ install && cd ../../
+	make protocols
+    make release
+	cd ./hyprctl && make all && cd ..
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}"
+	mkdir -p "${pkgdir}/usr/share/wayland-sessions"
+	mkdir -p "${pkgdir}/usr/share/hyprland"
+	install -Dm755 build/Hyprland -t "${pkgdir}/usr/bin"
+	install -Dm755 hyprctl/hyprctl -t "${pkgdir}/usr/bin"
+	install -Dm644 assets/*.png -t "${pkgdir}/usr/share/hyprland"
+	install -Dm644 example/hyprland.desktop -t "${pkgdir}/usr/share/wayland-sessions"
+	install -Dm644 example/hyprland.conf -t "${pkgdir}/usr/share/hyprland"
+	install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${_pkgname}"
+	install -Dm755 ../tmpwlr/lib/libwlroots.so.* -t "${pkgdir}/usr/lib"
+}

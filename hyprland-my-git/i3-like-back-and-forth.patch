@@ -1,0 +1,22 @@
+diff --git a/src/managers/KeybindManager.cpp b/src/managers/KeybindManager.cpp
+index 9095ccf..7d28847 100644
+--- a/src/managers/KeybindManager.cpp
++++ b/src/managers/KeybindManager.cpp
+@@ -624,7 +624,7 @@ void CKeybindManager::changeworkspace(std::string args) {
+             else
+                 workspaceName = std::to_string(workspaceToChangeTo);
+ 
+-            isSwitchingToPrevious = true;
++            // isSwitchingToPrevious = true;
+ 
+             // If the previous workspace ID isn't reset, cycles can form when continually going
+             // to the previous workspace again and again.
+@@ -657,7 +657,7 @@ void CKeybindManager::changeworkspace(std::string args) {
+         else
+             workspaceName = std::to_string(workspaceToChangeTo);
+ 
+-        isSwitchingToPrevious = true;
++        // isSwitchingToPrevious = true;
+ 
+         // If the previous workspace ID isn't reset, cycles can form when continually going
+         // to the previous workspace again and again.
